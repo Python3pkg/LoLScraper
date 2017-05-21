@@ -97,5 +97,5 @@ class TierStore:
         store.write(text)
 
     def close(self):
-        for value in self._stores.values():
+        for value in list(self._stores.values()):
             value.close()

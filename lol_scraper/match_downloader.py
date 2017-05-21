@@ -309,7 +309,7 @@ class MatchDownloader(threading.Thread):
                     match, match_min_tier, participant_tiers = self.fetch_match(next_match)
                     with self.pta_lock:
                         if len(self.players_to_analyze) <= max_players_in_queue:
-                            for ids in participant_tiers.values():
+                            for ids in list(participant_tiers.values()):
                                 self.players_to_analyze.update(ids)
                             self.player_available_condition.notify_all()
 

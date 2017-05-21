@@ -149,7 +149,7 @@ class TierStoreTest(unittest.TestCase):
         with closing(self.ts):
             self.test_multiple_file_multiple_store()
 
-        for store in self.ts._stores.values():
+        for store in list(self.ts._stores.values()):
             self.assertIsNone(store._file)
 
 if __name__ == '__main__':

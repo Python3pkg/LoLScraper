@@ -35,7 +35,7 @@ def leagues_by_summoner_ids(summoner_ids, queue=Queue.RANKED_SOLO_5x5):
     """
     summoners_league = defaultdict(set)
     for start, end in _slice(0, len(summoner_ids), 10):
-        for id, leagues in get_league_entries_by_summoner(summoner_ids[start:end]).items():
+        for id, leagues in list(get_league_entries_by_summoner(summoner_ids[start:end]).items()):
             for league in leagues:
                 if Queue[league.queue]==queue:
                     summoners_league[Tier.parse(league.tier)].add(int(id))
@@ -51,8 +51,8 @@ def get_tier_from_participants(participantsIdentities, minimum_tier=Tier.bronze,
     :return: the tier of the lowest tier player in the match
     """
     leagues = leagues_by_summoner_ids([p.player.summonerId for p in participantsIdentities], queue)
-    match_tier = max(leagues.keys(), key=operator.attrgetter('value'))
-    return match_tier, {league: ids for league, ids in leagues.items() if league.is_better_or_equal(minimum_tier)}
+    match_tier = max(list(leagues.keys()), key=operator.attrgetter('value'))
+    return match_tier, {league: ids for league, ids in list(leagues.items()) if league.is_better_or_equal(minimum_tier)}
 
 def summoner_names_to_id(summoners):
     """
@@ -63,6 +63,6 @@ def summoner_names_to_id(summoners):
     ids = {}
     for start, end in _slice(0, len(summoners), 40):
         result = get_summoners_by_name(summoners[start:end])
-        for name, summoner in result.items():
+        for name, summoner in list(result.items()):
             ids[name] = summoner.id
     return ids

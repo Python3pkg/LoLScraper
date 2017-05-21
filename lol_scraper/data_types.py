@@ -94,14 +94,14 @@ class TierSet():
                     self._tiers[tier] = set(to_add)
 
     def __bool__(self):
-        for set in self._tiers.values():
+        for set in list(self._tiers.values()):
             if set:
                 return True
         return False
 
     def __len__(self):
         length = 0
-        for set in self._tiers.values():
+        for set in list(self._tiers.values()):
             length += len(set)
         return length
 
@@ -120,7 +120,7 @@ class TierSet():
         return self
 
     def __contains__(self, item):
-        for set in self._tiers.values():
+        for set in list(self._tiers.values()):
             if item in set:
                 return True
         return False
@@ -138,12 +138,12 @@ class TierSet():
                 tier_set.update(values)
 
     def update(self, other):
-        for tier, addition in other._tiers.items():
+        for tier, addition in list(other._tiers.items()):
             if addition:
                 self.update_tier(addition, tier)
 
     def difference_update(self, other):
-        for tier, values in self._tiers.items():
+        for tier, values in list(self._tiers.items()):
             if values:
                 difference = other._tiers.get(tier, None)
                 if difference:
@@ -167,19 +167,19 @@ class TierSet():
 
     def to_json(self):
         dct = {}
-        for tier, values in self._tiers.items():
+        for tier, values in list(self._tiers.items()):
             if values:
                 dct[tier.name] = list(values)
         return dct
 
     def from_json(self, json_dump):
-        for tier_name, values in json_dump.items():
+        for tier_name, values in list(json_dump.items()):
             if values:
                 self._tiers[Tier.parse(tier_name)] = set(values)
         return self
 
     def __iter__(self):
-        for set in self._tiers.values():
+        for set in list(self._tiers.values()):
             if set:
                 for id in set:
                     yield id

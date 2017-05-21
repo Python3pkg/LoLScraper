@@ -43,7 +43,7 @@ class TierTest(unittest.TestCase):
         begin = [0, 3, 6, 9,12,15,18]
         end =   [3, 6, 9,12,15,18,20]
         generator = _slice(0,20,step)
-        for (b1,e1), (b2,e2) in zip(zip(begin, end), generator):
+        for (b1,e1), (b2,e2) in zip(list(zip(begin, end)), generator):
             self.assertEqual(lst[b1:e1], lst[b2:e2])
         try:
             next(generator)
